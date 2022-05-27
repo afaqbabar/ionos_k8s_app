@@ -42,7 +42,7 @@
 #       with:
 #         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-name: 'Terraform'
+name: 'Action-01'
 
 on:
   push:
@@ -54,8 +54,8 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  infra:
+    name: 'Infra'
     runs-on: ubuntu-latest
     environment: production
 
@@ -92,3 +92,15 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve -input=false
+  k8s:
+          needs: infra
+          name: "k8s"
+          runs-on: ubuntu-latest
+          steps:
+               - uses: actions/checkout@master
+               - name: install helm
+                 run: |
+                       curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+                       chmod 700 get_helm.sh
+                       ./get_helm.sh
+                       helm help 
