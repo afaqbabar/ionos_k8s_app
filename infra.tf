@@ -47,6 +47,6 @@ resource "ionoscloud_k8s_node_pool" "k8s_node_pool_01" {
   cores_count       = 4
   ram_size          = 4096
   storage_size      = 80
-  public_ips        = [ionoscloud_ipblock.ipblock_01.ips[0], ionoscloud_ipblock.ipblock_01.ips[1], ionoscloud_ipblock.ipblock_01.ips[2]]
+  public_ips        = [ionoscloud_ipblock.ipblock_01.ips[0], ionoscloud_ipblock.ipblock_01.ips[1], ionoscloud_ipblock.ipblock_01.ips[2], ionoscloud_ipblock.ipblock_01.ips[3]]
 
 }
