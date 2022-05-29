@@ -133,4 +133,9 @@ jobs:
                  with:
                          config: ${{ secrets.KUBE_CONFIG_DATA }}
                          command: apply -f app/prometheus-service.yaml
+               - uses: actions/checkout@master
+               - name: create datasource for grafana
+                 with:
+                         config: ${{ secrets.KUBE_CONFIG_DATA }}
+                         command: apply -f app/grafana-datasource-config.yaml
 
