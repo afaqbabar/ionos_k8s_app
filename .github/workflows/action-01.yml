@@ -98,7 +98,9 @@ jobs:
           runs-on: ubuntu-latest
           steps:
                - uses: actions/checkout@master
-               - name: Test command
-                 run: |
-                        echo "Hi"
+               - name: Ingress Controller
+                 uses: steebchen/kubectl@v2.0.0
+                 with:
+                         config: ${{ secrets.KUBE_CONFIG_DATA }}
+                         command: get all | grep ingress-nginx
 
