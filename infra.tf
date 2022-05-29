@@ -60,14 +60,14 @@ resource "local_file" "kubeconfig" {
   filename          = "${path.module}/kubeconfig.yaml"
 }
 
+data "local_file" "kubeconfig" {
+  filename = "${path.module}/kubeconfig.yaml"
+}
+
 provider "helm" {
 
   kubernetes {
-    depends_on = [
-      local_file.kubeconfig
-    ]
-
-    config_path = "${path.module}/kubeconfig.yaml"
+    config_path = data.local_file.kubeconfig.content_base64
   }
 }
 
