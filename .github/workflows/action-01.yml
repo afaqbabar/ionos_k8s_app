@@ -152,6 +152,12 @@ jobs:
                          config: ${{ secrets.KUBE_CONFIG_DATA }}
                          command: apply -f app/grafana-service.yaml
                - uses: actions/checkout@master
+               - name: delete ingress for grafana if present
+                 uses: steebchen/kubectl@v2.0.0
+                 with:
+                         config: ${{ secrets.KUBE_CONFIG_DATA }}
+                         command: delete -f app/monitoring-ingress.yaml
+               - uses: actions/checkout@master
                - name: create ingress for grafana
                  uses: steebchen/kubectl@v2.0.0
                  with:
