@@ -115,4 +115,10 @@ jobs:
                  with:
                          config: ${{ secrets.KUBE_CONFIG_DATA }}
                          command: apply -f app/clusterRole.yaml
+               - uses: actions/checkout@master
+               - name: create clusterRole for prometheus
+                 uses: create configMap for prometheus
+                 with:
+                        config: ${{ secrets.KUBE_CONFIG_DATA }} 
+                        command: apply -f app/config-map.yaml
 
