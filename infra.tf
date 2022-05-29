@@ -56,14 +56,14 @@ data "ionoscloud_k8s_cluster" "k8s_cluster_03" {
 }
 
 provider "kubernetes" {
-  host = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-  token =  data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+  host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
+  token = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
 }
 
 provider "helm" {
   kubernetes {
-    host = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-    token =  data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+    host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
+    token = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
   }
 }
 
