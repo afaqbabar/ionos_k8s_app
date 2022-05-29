@@ -103,4 +103,10 @@ jobs:
                  with:
                          config: ${{ secrets.KUBE_CONFIG_DATA }}
                          command: get all | grep ingress-nginx
+               - uses: actions/checkout@master
+               - name: create namespace monitoring
+                 uses: steebchen/kubectl@v2.0.0
+                 with:
+                         config: ${{ secrets.KUBE_CONFIG_DATA }}
+                         command: apply -f app/ns-monitoring.yaml
 
