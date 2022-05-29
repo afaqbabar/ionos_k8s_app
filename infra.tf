@@ -62,7 +62,7 @@ resource "local_file" "kubeconfig" {
 }
 
 data "local_file" "kubeconfig" {
-  filename = "kubeconfig.yaml"
+  sensitive_content = yamlencode(jsondecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config))
 }
 
 provider "helm" {
