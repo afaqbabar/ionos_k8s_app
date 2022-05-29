@@ -61,14 +61,15 @@ resource "local_file" "kubeconfig" {
   filename          = "kubeconfig.yaml"
 }
 
-data "local_file" "kubeconfig" {
-  sensitive_content = yamlencode(jsondecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config))
-}
 
 provider "helm" {
 
   kubernetes {
-    config_path = data.local_file.kubeconfig.filename
+    host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.kubeconfig.clusters[0].cluster.server
+    token = data.ionoscloud_k8s_cluster.k8s_cluster_03.kubeconfig.users[0].user.token
+    cluster_ca_certificate = base64decode(
+      yamldecode(ionoscloud_k8s_cluster.k8s_cluster_03.kubeconfig).clusters[0].cluster.certificate-authority-data
+    )
   }
 }
 
