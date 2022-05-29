@@ -62,22 +62,16 @@ resource "local_file" "kubeconfig" {
 
 provider "helm" {
 
-  depends_on = [
-    local_file.kubeconfig
-  ]
-
   kubernetes {
+    depends_on [
+     local_file.kubeconfig
+]
+
     config_path = "${path.module}/kubeconfig.yaml"
-    host        = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-    token       = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
-    #cluster_ca_certificate = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.certificate-authority-data
   }
 }
 
 resource "helm_release" "ingress-nginx" {
-  depends_on = [
-    local_file.kubeconfig
-  ]
 
   name = "ingress-nginx"
 
