@@ -63,9 +63,9 @@ resource "local_file" "kubeconfig" {
 provider "helm" {
 
   kubernetes {
-    depends_on [
-     local_file.kubeconfig
-]
+    depends_on = [
+      local_file.kubeconfig
+    ]
 
     config_path = "${path.module}/kubeconfig.yaml"
   }
