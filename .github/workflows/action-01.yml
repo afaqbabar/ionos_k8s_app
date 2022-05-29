@@ -147,6 +147,7 @@ jobs:
                          command: apply -f app/grafana-deployment.yaml
                - uses: actions/checkout@master
                - name: create service for grafana
+                 uses: steebchen/kubectl@v2.0.0
                  with:
                          config: ${{ secrets.KUBE_CONFIG_DATA }}
                          command: apply -f app/grafana-service.yaml
