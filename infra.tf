@@ -63,7 +63,7 @@ resource "local_file" "kubeconfig" {
 provider "helm" {
 
   kubernetes {
-    config_path = "/tmp/kubeconfig.yaml"
+    config_path = data.local_file.kubeconfig.filename
   }
 }
 
