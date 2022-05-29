@@ -121,4 +121,10 @@ jobs:
                  with:
                         config: ${{ secrets.KUBE_CONFIG_DATA }} 
                         command: apply -f app/config-map.yaml
+               - uses: actions/checkout@master
+               - name: create deployment for prometheus
+                 uses: steebchen/kubectl@v2.0.0
+                 with:
+                         config: ${{ secrets.KUBE_CONFIG_DATA }}
+                         command: apply -f app/prometheus-deployment.yaml
 
