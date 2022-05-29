@@ -57,7 +57,7 @@ data "ionoscloud_k8s_cluster" "k8s_cluster_03" {
 
 resource "local_file" "kubeconfig" {
   sensitive_content = yamlencode(jsondecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config))
-  filename          = "kubeconfig.yaml"
+  filename          = "${path.module}/kubeconfig.yaml"
 }
 
 provider "kubernetes" {
@@ -67,7 +67,7 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    config_path = "~/.kube/kubeconfig.yaml"
+    config_path = "${path.module}/kubeconfig.yaml"
   }
 }
 
