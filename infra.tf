@@ -65,8 +65,12 @@ resource "local_file" "kubeconfig" {
 provider "helm" {
 
   kubernetes {
-    host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config.clusters[0].cluster.server
-    token = data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config.users[0].user.token
+    host = base64decode(
+      yamldecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config).clusters[0].cluster.server
+    )
+    token = base64decode(
+      yamldecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config).users[0].user.token
+    )
     cluster_ca_certificate = base64decode(
       yamldecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config).clusters[0].cluster.certificate-authority-data
     )
