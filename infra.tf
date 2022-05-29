@@ -61,13 +61,19 @@ resource "local_file" "kubeconfig" {
 }
 
 provider "kubernetes" {
-  host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-  token = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+  host                   = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
+  token                  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+  cluster_ca_certificate = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.ca_crt
+  load_config_file       = "false"
 }
 
 provider "helm" {
   kubernetes {
-    config_path = "${path.module}/kubeconfig.yaml"
+    #config_path = "${path.module}/kubeconfig.yaml"
+    host                   = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
+    token                  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+    cluster_ca_certificate = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.ca_crt
+    load_config_file       = "false"
   }
 }
 
