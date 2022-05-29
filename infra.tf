@@ -57,17 +57,17 @@ data "ionoscloud_k8s_cluster" "k8s_cluster_03" {
 
 resource "local_file" "kubeconfig" {
   sensitive_content = yamlencode(jsondecode(data.ionoscloud_k8s_cluster.k8s_cluster_03.kube_config))
-  filename          = "${path.module}/kubeconfig.yaml"
+  filename          = "kubeconfig.yaml"
 }
 
 data "local_file" "kubeconfig" {
-  filename = "${path.module}/kubeconfig.yaml"
+  filename = "kubeconfig.yaml"
 }
 
 provider "helm" {
 
   kubernetes {
-    config_path = data.local_file.kubeconfig.content_base64
+    config_path = data.local_file.kubeconfig.filename
   }
 }
 
