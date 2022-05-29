@@ -60,23 +60,20 @@ resource "local_file" "kubeconfig" {
   filename          = "${path.module}/kubeconfig.yaml"
 }
 
-provider "kubernetes" {
-  host                   = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-  token                  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
-  cluster_ca_certificate = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.cai_crt
-  load_config_file       = "false"
-}
-
 provider "helm" {
   kubernetes {
-    #config_path = "${path.module}/kubeconfig.yaml"
-    host  = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
-    token = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
+    config_path = "${path.module}/kubeconfig.yaml"
+    host        = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.server
+    token       = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].users[0].user.token
     #cluster_ca_certificate = data.ionoscloud_k8s_cluster.k8s_cluster_03.config[0].clusters[0].cluster.certificate-authority-data
   }
 }
 
 resource "helm_release" "ingress-nginx" {
+  depends_on = [
+    local_file.kubeconfig
+  ]
+
   name = "ingress-nginx"
 
   repository = "https://kubernetes.github.io/ingress-nginx"
