@@ -31,26 +31,6 @@ data:
           - "alertmanager.monitoring.svc:9093"
 
     scrape_configs:
-      - job_name: 'blackbox_exporter'
-        static_configs:
-                - targets: ['prometheus-blackbox-exporter.default.svc:9115']
-
-      - job_name: 'mail.ionos-website'
-        static_configs:
-                - targets:
-                        - mail.ionos.com
-        metrics_path: /probe
-        params:
-                module:
-                        - http_2xx
-        relabel_configs:
-                - source_labels: [__address__]
-                  target_label: __param_target
-                - source_labels: [__param_target]
-                  target_label: instance
-                - target_label: __address__
-                  replacement: prometheus-blackbox-exporter.default.svc:9115  # The blackbox exporter's real hostname:port.
-
       - job_name: 'node-exporter'
         kubernetes_sd_configs:
           - role: endpoints
@@ -122,6 +102,9 @@ data:
           action: replace
           target_label: kubernetes_pod_name
       
+      - job_name: 'kube-state-metrics'
+        static_configs:
+          - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
 
       - job_name: 'kubernetes-cadvisor'
 
@@ -174,3 +157,18 @@ data:
         - source_labels: [__meta_kubernetes_service_name]
           action: replace
           target_label: kubernetes_name
+    additionalScrapeConfigs:
+    - job_name: blackbox
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      static_configs:
+        - targets:
+            - https://mail.ionos.com
+      relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: prometheus-blackbox-exporter.monitoring:9115

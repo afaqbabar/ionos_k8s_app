@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: ingress-prometheus
   namespace: monitoring
-  annotations:
-          ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
